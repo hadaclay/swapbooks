@@ -1,0 +1,37 @@
+{
+  "name": "swapbooks",
+  "version": "0.1.0",
+  "description": "View and trade books with users",
+  "private": true,
+  "main": "start.js",
+  "dependencies": {
+    "autoprefixer": "^7.1.1",
+    "babel-preset-env": "^1.5.2",
+    "body-parser": "^1.17.2",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^1.3.2",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.3",
+    "express-session": "^1.15.3",
+    "extract-text-webpack-plugin": "^2.1.2",
+    "mongoose": "^4.11.1",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^4.0.0",
+    "pug": "^2.0.0-rc.2",
+    "webpack": "^3.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.0",
+    "nodemon": "^1.11.0"
+  },
+  "scripts": {
+    "start": "node ./start.js",
+    "watch": "nodemon ./start.js --ignore public/",
+    "dev": "concurrently 'npm run watch' 'npm run assets' --names '💻,📦' --prefix name",
+    "assets": "webpack -w --display-max-modules 0"
+  },
+  "keywords": [],
+  "author": "Clayton Hadaway <me@hadaclay.com>",
+  "license": "MIT"
+}
