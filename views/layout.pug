@@ -1,12 +1,38 @@
 doctype html
 html
   head
-    title= `${title} |`
+    title= `${title} | ${h.siteName}`
     link(rel='stylesheet', href='/dist/style.css')
+    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css')
     meta(name='viewport' content='width=device-width, initial-scale=1')
   body
     block header
+      .container
+        nav.nav
+          .nav-left
+            a.nav-item(href='/') Home
+          .nav-menu.nav-right
+              if user
+                a.nav-item(href='/allbooks') All Books
+                a.nav-item(href='/mybooks') My Books
+                a.nav-item(href='/settings')
+                  span.icon
+                    i.fa.fa-cog
+                a.nav-item(href='/logout')
+                  span.icon
+                    i.fa.power-off
+              else
+                a.nav-item(href='/signup') Sign Up
+                a.nav-item(href='/login') Login
+        
     block messages
+      if locals.flashes
+        - const categories = Object.keys(locals.flashes)
+        each category in categories
+          each message in flashes[categories]
+            .flash(class=`flash-${category}`)
+              p.flash-text!= message
+              button.flash-remove(onClick="this.parentElement.remove()") &times;
     
     .content
       block content

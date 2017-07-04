@@ -10,13 +10,15 @@ const javascript = {
       loader: 'babel-loader',
       options: {
         presets: [
-          'env',
-          {
-            targets: {
-              browser: ['last 3 versions', 'safari >= 7']
-            },
-            useBuiltIns: true
-          }
+          [
+            'env',
+            {
+              targets: {
+                browser: ['last 3 versions', 'safari >= 7']
+              },
+              useBuiltIns: true
+            }
+          ]
         ]
       }
     }
@@ -35,13 +37,13 @@ const postcss = {
 const styles = {
   test: /\.(scss)$/,
   use: ExtractTextPlugin.extract([
-    'css-loader?sourceMap',
+    'css-loader',
     postcss,
-    'sass-loader?sourceMap'
+    'sass-loader'
   ])
 };
 
-const uglify = new webpack.optimize.uglifyJsPlugin({
+const uglify = new webpack.optimize.UglifyJsPlugin({
   compress: { warnings: false }
 });
 
@@ -57,9 +59,8 @@ const config = {
   module: {
     rules: [javascript, styles]
   },
-  plugins: [
-    new ExtractTextPlugin('style.css'),
-  ]
+  plugins: [new ExtractTextPlugin('style.css')]
 };
+process.noDeprecation = true;
 
 module.exports = config;

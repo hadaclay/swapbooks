@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  .container
+    form.form(action='/login' method='POST')
+      h2.title Login
+      label.label(for='email') Email Address
+      input.input(type='email' name='email')
+      label.label(for='password') Password
+      input.input(type='password' name='password')
+      input.button(type='submit' value='Log In →')
+      input.button(href='/signup' value='Sign Up')
