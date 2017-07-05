@@ -5,6 +5,7 @@ const MongoStore = require('connect-mongo')(session);
 const path = require('path');
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const promisify = require('es6-promisify');
 const flash = require('connect-flash');
 const expressValidator = require('express-validator');
 const routes = require('./routes/index');
@@ -25,6 +26,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(expressValidator());
+
 // Set up session
 app.use(session({
   secret: process.env.SECRET,
@@ -42,8 +45,13 @@ app.use(flash());
 app.use((req, res, next) => {
   res.locals.h = helpers;
   res.locals.flashes = req.flash();
-  //req.locals.user = req.user || null;
+  res.locals.user = req.user || null;
   res.locals.currentPath = req.path;
+  next();
+});
+
+app.use((req, res, next) => {
+  req.login = promisify(req.login, req);
   next();
 });
 

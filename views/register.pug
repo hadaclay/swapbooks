@@ -5,10 +5,11 @@ block content
     form.form(action='/signup' method='POST')
       h2.title Sign up
       label.label(for='name') Name
-      input.input(type='name' name='name')
+      input.input(type='text' name='name')
       label.label(for='email') Email 
       input.input(type='email' name='email')
       label.label(for='password') Password
       input.input(type='password' name='password')
       input.button(type='submit' value='Sign Up')
-      button.button(href='/login') Login
+    a(href='/login')
+      button.button Login

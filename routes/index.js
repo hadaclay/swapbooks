@@ -11,12 +11,21 @@ const { catchErrors } = require('../handlers/errorHandlers');
 router.get('/', bookController.homePage);
 
 router.get('/login', userController.loginForm);
-router.get('/signup', userController.registerForm);
-/*
-router.get('/settings', userController.settingsPage);
+router.post('/login', authController.login);
 
-router.get('/allbooks', bookController.getBooks);
-router.get('/mybooks', bookController.getUserBooks);
-*/
+router.get('/signup', userController.registerForm);
+router.post(
+  '/signup',
+  userController.validateRegister,
+  userController.register,
+  authController.login
+);
+
+router.get('/settings', authController.isLoggedIn, userController.settingsPage);
+
+router.get('/allbooks', authController.isLoggedIn, bookController.getBooks);
+router.get('/mybooks', authController.isLoggedIn, bookController.getUserBooks);
+
+router.get('/logout', authController.logout);
 
 module.exports = router;
