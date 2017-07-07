@@ -3,13 +3,14 @@ html
   head
     title= `${title} | ${h.siteName}`
     link(rel='stylesheet', href='/dist/style.css')
-    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css')
+    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
     meta(name='viewport' content='width=device-width, initial-scale=1')
   body
     block header
       .container
         nav.nav
           .nav-left
+            h3.nav-item #{h.siteName}
             a.nav-item(href='/') Home
           .nav-menu.nav-right
               if user
@@ -30,13 +31,18 @@ html
         - const categories = Object.keys(locals.flashes)
         each category in categories
           each message in flashes[categories]
-            .flash(class=`flash-${category}`)
+            .notification(class=`${category}`)
               p.flash-text!= message
-              button.flash-remove(onClick="this.parentElement.remove()") &times;
+              button.delete(onClick="this.parentElement.remove()")
     
     .content
       block content
         p Hello World!
+      
+    footer.footer
+      .container
+        .content.has-text-centered
+          p #{h.siteName} by Clayton Hadaway
         
     block scripts
       script(src='/dist/App.bundle.js')

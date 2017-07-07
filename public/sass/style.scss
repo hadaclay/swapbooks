@@ -2,9 +2,54 @@
 
 .nav {
   background-color: whitesmoke;
-  margin-bottom: 2em;
+}
+
+.section.main {
+  background-color: #F0F0F0;
+}
+
+.panel-block.section p {
+  width: 100%;
+  font-size: 17px;
+  line-height: 1.4;
+  color: #95A5A6;
+}
+
+.icon-block {
+  font-size: 5em !important;
 }
 
 .hero-logo {
   font-size: 5em !important;
+}
+
+.trade-buttons {
+  margin-top: 3em;
+}
+
+.book-actions {
+  color: gray;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  top: 2em;
+  padding: 5px;
+}
+
+.book-actions i {
+  text-shadow: 2px 2px rgba(0,0,0,0.5);
+}
+
+.book-actions .book-delete {
+  color: red;
+}
+
+.book-actions .book-trade {
+  color: #3273dc;
+}
+
+.content:not(:last-child) {
+  margin-bottom: 0;
 }

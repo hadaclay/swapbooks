@@ -1,4 +1,21 @@
 extends layout
 
+include _bookCard
+
 block content
-  h1 My Books
+  .container.has-text-centered
+    .level
+      a.level-item.button.is-success.trade-buttons Your Trade Requests (#{incomingTrades || 0} outstanding)
+      a.level-item.button.is-info.trade-buttons Trade requests for you (#{outgoingTrades || 0} unapproved)
+    h1 My Books:
+    hr
+    form.form(action='/api/addbook' method='POST')
+      .field.has-addons
+        p.control
+          input.input(type='text' placeholder='Add Book' name='book')
+        p.control
+          a.button.is-info Search
+    .columns
+      each book in books
+        +bookCard(book)
+    br

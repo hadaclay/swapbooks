@@ -2,14 +2,21 @@ extends layout
 
 block content
   .container
-    form.form(action='/signup' method='POST')
-      h2.title Sign up
-      label.label(for='name') Name
-      input.input(type='text' name='name')
-      label.label(for='email') Email 
-      input.input(type='email' name='email')
-      label.label(for='password') Password
-      input.input(type='password' name='password')
-      input.button(type='submit' value='Sign Up')
-    a(href='/login')
-      button.button Login
+    .columns.is-vcentered
+      .column.is-4.is-offset-4
+        .box
+          h2.title Sign up
+          form.form(action='/signup' method='POST')
+            label.label(for='name') Name
+            p.control
+              input.input(type='text' name='name')
+            label.label(for='email') Email 
+            p.control
+              input.input(type='email' name='email')
+            label.label(for='password') Password
+            p.control
+              input.input(type='password' name='password')
+            hr
+            input.button(type='submit' value='Sign Up')
+          a(href='/login')
+            button.button Login

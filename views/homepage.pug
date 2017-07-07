@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  section.hero.is-info
+  section.hero.is-info.is-medium
     .hero-body
       .container.has-text-centered
         .columns.is-vcentered
@@ -10,3 +10,27 @@ block content
             h2.subtitle Trade books and learn a lot.
             h1.title.hero-logo
               i.fa.fa-book(aria-hidden='true')
+    .section.main
+      .container
+        .columns
+          .column.is-4
+            .panel
+              .panel-block.section
+                p.has-text-centered
+                  i.fa.fa-handshake-o.icon-block
+                br
+                p Trade books with people from your community.
+          .column.is-4
+            .panel
+              .panel-block.section
+                p.has-text-centered
+                  i.fa.fa-users.icon-block
+                br
+                p See what people arond you like to read.
+          .column.is-4
+            .panel
+              .panel-block.section
+                p.has-text-centered
+                  i.fa.fa-bookmark.icon-block
+                br
+                p Finally conquer your reading list.

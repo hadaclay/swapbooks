@@ -1,0 +1,13 @@
+mixin bookCard(book = {})
+  .column.is-2
+    .card
+      .book-actions
+        if user && !book.active_trade && !book.owner.equals(user._id)
+          a(href=``)
+            i.fa.fa-retweet.book-trade
+        if user && book.owner.equals(user._id)
+          a(href=`/api/delete/${book._id}`)
+            i.fa.fa-times.book-delete
+      .card-image
+        figure.image
+          img(src=book.img_url alt=book.name)

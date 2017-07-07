@@ -2,6 +2,7 @@ extends layout
 
 block content
   .container
+    br
     form.form(action='/updateuser', method='POST')
       h2.title Update Profile
       label.label(for='city') City
@@ -9,6 +10,7 @@ block content
       label.label(for='state') State
       input.input(type='text' name='state')
       input.button(type='submit' value='Save Changes')
+    br
       
     form.form(action='/updatepass', method='POST')
       h2.title Change Password
@@ -17,3 +19,4 @@ block content
       label.label(for='newpass') New Password
       input.input(type='password' name='newpass')
       input.button(type='submit' value='Save Changes')
+    br
