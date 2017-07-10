@@ -19,7 +19,7 @@ exports.validateRegister = (req, res, next) => {
 
   const errors = req.validationErrors();
   if (errors) {
-    req.flash('error', errors.map(err => err.msg));
+    req.flash('is-danger', errors.map(err => err.msg));
     res.render('register', {
       title: 'Register',
       body: req.body,
@@ -41,6 +41,21 @@ exports.settingsPage = (req, res) => {
   res.render('settings', { title: 'Account Settings' });
 };
 
-exports.updateProfile = async (req, res) => {};
+exports.updateProfile = async (req, res) => {
+  const updates = {
+    name: req.body.name,
+    city: req.body.city,
+    state: req.body.state
+  };
+
+  const user = await User.findOneAndUpdate(
+    { _id: req.user._id },
+    { $set: updates },
+    { new: true, runValidators: true, context: 'query' }
+  );
+
+  req.flash('is-success', 'Profile Updated!');
+  res.redirect('back');
+};
 
 exports.updatePassword = async (req, res) => {};

@@ -7,7 +7,7 @@ const passportLocalMongoose = require('passport-local-mongoose');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: 'Please Supply your name'
+    required: 'Please Supply your Name'
   },
   email: {
     type: String,
@@ -29,6 +29,12 @@ const userSchema = new mongoose.Schema({
   },
   books: [
     { type: mongoose.Schema.ObjectId, ref: 'Book' }
+  ],
+  trade_requests: [
+    { type: mongoose.Schema.ObjectId, ref: 'Trade' }
+  ],
+  trade_offers: [
+    { type: mongoose.Schema.ObjectId, ref: 'Trade' }
   ]
 });
 

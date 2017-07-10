@@ -21,6 +21,11 @@ router.post(
 );
 
 router.get('/settings', authController.isLoggedIn, userController.settingsPage);
+router.post(
+  '/updateinfo',
+  authController.isLoggedIn,
+  catchErrors(userController.updateProfile)
+);
 
 router.get(
   '/allbooks',
@@ -49,6 +54,12 @@ router.get(
   '/api/delete/:id',
   authController.isLoggedIn,
   catchErrors(bookController.deleteBook)
+);
+
+router.get(
+  '/api/trade/:id',
+  authController.isLoggedIn,
+  catchErrors(tradeController.addTrade)
 );
 
 module.exports = router;

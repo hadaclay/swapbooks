@@ -5,8 +5,33 @@ include _bookCard
 block content
   .container.has-text-centered
     .level
-      a.level-item.button.is-success.trade-buttons Your Trade Requests (#{incomingTrades || 0} outstanding)
-      a.level-item.button.is-info.trade-buttons Trade requests for you (#{outgoingTrades || 0} unapproved)
+      a.level-item.button.is-success.trade-buttons(id='trade_requests') Your Trade Requests (#{incomingTrades}  outstanding)
+      a.level-item.button.is-info.trade-buttons(id='trade_offers') Trade requests for you (#{outgoingTrades} unapproved)
+    .trade_requests(style='display: none;')
+      h1 Your trade requests:
+      hr
+      .trade_request_list
+        .columns
+          .column.is-6.menu
+            ul.menu-list
+              each trade in trade_requests
+                li 
+                  a #{trade.name}
+                  a(href=`/api/cancel/${trade._id}`) 
+                    i.fa.fa-times.fa-2x
+        br
+    .trade_offers(style='display: none;')
+      h1 Requests for you:
+      hr
+      .trade_offer_list
+        .columns
+          .column.is-6.menu
+            ul.menu-list
+              each offer in trade_offers
+                a
+                  li #{offer.name}
+                  
+        br
     h1 My Books:
     hr
     form.form(action='/api/addbook' method='POST')
@@ -14,7 +39,7 @@ block content
         p.control
           input.input(type='text' placeholder='Add Book' name='book')
         p.control
-          a.button.is-info Search
+          a.button.is-info(onclick='this.parentElement.parentElement.parentElement.submit();') Search
     .columns
       each book in books
         +bookCard(book)

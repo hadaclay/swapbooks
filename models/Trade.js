@@ -2,19 +2,19 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const tradeSchema = new mongoose.Schema({
+  book: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Book'
+  },
   name: {
     type: String,
     required: true
   },
-  active: {
-    type: Boolean,
-    default: true
-  },
-  sender: {
+  owner: {
     type: mongoose.Schema.ObjectId,
     ref: 'User'
   },
-  reciever: {
+  requesting_user: {
     type: mongoose.Schema.ObjectId,
     ref: 'User'
   }

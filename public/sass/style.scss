@@ -1,5 +1,9 @@
 @import '~bulma';
 
+li {
+  list-style: none;
+}
+
 .nav {
   background-color: whitesmoke;
 }
@@ -15,6 +19,10 @@
   color: #95A5A6;
 }
 
+.columns {
+  flex-wrap: wrap;
+}
+
 .icon-block {
   font-size: 5em !important;
 }
@@ -28,13 +36,13 @@
 }
 
 .book-actions {
+  background-color: rgba(0, 0, 0, .1);
   color: gray;
   position: relative;
   z-index: 2;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  top: 2em;
   padding: 5px;
 }
 
@@ -48,6 +56,10 @@
 
 .book-actions .book-trade {
   color: #3273dc;
+}
+
+.box {
+  padding: 0.2rem;
 }
 
 .content:not(:last-child) {

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Book = mongoose.model('Book');
+const User = mongoose.model('User');
 const axios = require('axios');
 
 exports.homePage = (req, res) => {
@@ -17,7 +18,22 @@ exports.userBooks = async (req, res) => {
     .sort({ created: 'desc' })
     .exec();
 
-  res.render('mybooks', { title: 'My Books', books });
+  const user = await User.findOne({ _id: req.user._id })
+    .populate('trade_requests')
+    .populate('trade_offers');
+  const incomingTrades = await user.trade_requests.length;
+  const outgoingTrades = await user.trade_offers.length;
+  const trade_requests = await user.trade_requests;
+  const trade_offers = await user.trade_offers;
+
+  res.render('mybooks', {
+    title: 'My Books',
+    books,
+    incomingTrades,
+    outgoingTrades,
+    trade_requests,
+    trade_offers
+  });
 };
 
 exports.addBook = async (req, res, next) => {
@@ -25,10 +41,17 @@ exports.addBook = async (req, res, next) => {
   const bookRequestURL = `https://www.googleapis.com/books/v1/volumes?q=${req
     .body.book}&key=${process.env.GOOGLE_API_KEY}`;
 
+  // Get book data and check for thumbnail
   const response = await axios.get(bookRequestURL);
+  const bookData = response.data.items[0].volumeInfo;
+  if ('imageLinks' in bookData === false) {
+    bookData.imageLinks = {};
+    bookData.imageLinks.thumbnail = '';
+  }
+
   const book = await new Book({
-    name: response.data.items[0].volumeInfo.title,
-    img_url: response.data.items[0].volumeInfo.imageLinks.thumbnail,
+    name: bookData.title,
+    img_url: bookData.imageLinks.thumbnail,
     owner: req.user._id
   }).save();
 
@@ -36,10 +59,6 @@ exports.addBook = async (req, res, next) => {
 };
 
 exports.deleteBook = async (req, res) => {
-  // 1. Check if user owns book
-  // 2. Check for active trades
-  // 3. Delete from DB, return user to previous page
-
   const book = await Book.findOne({ _id: req.params.id }).exec();
 
   if (book.owner.toString() !== req.user._id.toString()) {
