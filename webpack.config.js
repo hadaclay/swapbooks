@@ -39,10 +39,6 @@ const styles = {
   use: ExtractTextPlugin.extract(['css-loader', postcss, 'sass-loader'])
 };
 
-const uglify = new webpack.optimize.UglifyJsPlugin({
-  compress: { warnings: false }
-});
-
 const config = {
   entry: {
     App: './public/javascripts/swapbooks-app.js'
