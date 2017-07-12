@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "View and trade books with users",
   "private": true,
+  "engines": {
+    "node": ">= 7.6.0"
+  },
   "main": "start.js",
   "dependencies": {
     "autoprefixer": "^7.1.1",
@@ -37,7 +40,7 @@
     "nodemon": "^1.11.0"
   },
   "scripts": {
-    "start": "npm run build && node start.js",
+    "start": "npm run build && node ./start.js",
     "build": "webpack",
     "watch": "nodemon ./start.js --ignore public/",
     "dev": "concurrently \"npm run watch\" \"npm run assets\" --names node,webpack --prefix name",
