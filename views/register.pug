@@ -4,8 +4,9 @@ block content
   .container
     .columns.is-vcentered
       .column.is-4.is-offset-4
+        br
         .box
-          h2.title Sign up
+          h2.title.has-text-centered Sign up
           form.form(action='/signup' method='POST')
             label.label(for='name') Name
             p.control
@@ -20,3 +21,4 @@ block content
             input.button(type='submit' value='Sign Up')
           a(href='/login')
             button.button Login
+        br

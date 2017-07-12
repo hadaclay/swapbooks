@@ -10,6 +10,10 @@ const bookSchema = new mongoose.Schema({
     type: String,
     required: false
   },
+  info_url: {
+    type: String,
+    required: false
+  },
   owner: {
     type: mongoose.Schema.ObjectId,
     ref: 'User'

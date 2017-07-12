@@ -5,8 +5,9 @@ mixin bookCard(book = {})
         if user && !book.active_trade && !book.owner.equals(user._id)
           a(href=`/api/trade/${book._id}`)
             i.fa.fa-retweet.book-trade.fa-2x
-        if user && book.owner.equals(user._id)
+        if user && book.owner.equals(user._id) && !book.active_trade
           a(href=`/api/delete/${book._id}`)
             i.fa.fa-times.book-delete.fa-2x
-      figure.image
-        img(src=book.img_url alt=book.name)
+      a(href=book.info_url target='_blank')
+        figure.image
+          img(src=book.img_url alt=book.name)

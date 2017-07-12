@@ -37,12 +37,13 @@
     "nodemon": "^1.11.0"
   },
   "scripts": {
-    "start": "node ./start.js",
+    "start": "npm run build && node start.js",
+    "build": "webpack",
     "watch": "nodemon ./start.js --ignore public/",
     "dev": "concurrently \"npm run watch\" \"npm run assets\" --names node,webpack --prefix name",
     "assets": "webpack -w --display-max-modules 0"
   },
-  "keywords": [],
+  "keywords": ["books", "express", "freecodecamp"],
   "author": "Clayton Hadaway <me@hadaclay.com>",
   "license": "MIT"
 }

@@ -35,29 +35,26 @@ exports.addTrade = async (req, res) => {
   book.active_trade = true;
   await book.save();
 
-  const requesting_user = await User.findOneAndUpdate(
+  // requesting_user
+  await User.findOneAndUpdate(
     { _id: req.user._id },
     { $push: { trade_requests: trade._id } }
   ).exec();
 
-  const requested_user = await User.findOneAndUpdate(
+  // requested_user
+  await User.findOneAndUpdate(
     { _id: book.owner },
     { $push: { trade_offers: trade._id } }
   ).exec();
 
+  req.flash('is-success', `Trade for ${trade.name} has been created.`);
   res.redirect('/allbooks');
 };
 
 exports.cancelTrade = async (req, res) => {
-  // 1. Check if user requesting delete is owner or requesting_user
-  // 2. if so, findOneAndRemove, go to 4
-  // 3. if not, return error
-  // 4. Set active_trade to false on traded book
-  // 5. Remove trade from both users
-
   if (!isValidID(req.params.id)) {
     req.flash('is-danger', 'Invalid trade ID');
-    return res.redirect('back');
+    return res.redirect('/mybooks');
   }
 
   // Find requested trade
@@ -65,11 +62,88 @@ exports.cancelTrade = async (req, res) => {
 
   if (trade === null) {
     req.flash('is-danger', 'Trade not found.');
-    return res.redirect('back');
+    return res.redirect('/mybooks');
   }
 
-  console.log(req.user._id, trade.owner, trade.requesting_user);
-  res.send(200);
+  // Check if user deleting is owner or requesting_user
+  if (
+    !trade.owner.equals(req.user._id) &&
+    !trade.requesting_user.equals(req.user._id)
+  ) {
+    req.flash('is-danger', 'You are not allowed to cancel this trade.');
+    return res.redirect('/mybooks');
+  }
+
+  // Set active_trade to false on traded book
+  await Book.findOneAndUpdate(
+    { _id: trade.book },
+    { active_trade: false }
+  ).exec();
+
+  // Remove trade from users
+  await User.findOneAndUpdate(
+    { _id: trade.owner },
+    { $pull: { trade_offers: trade._id } }
+  ).exec();
+
+  await User.findOneAndUpdate(
+    { _id: trade.requesting_user },
+    { $pull: { trade_requests: trade._id } }
+  ).exec();
+
+  // Remove trade from DB
+  await trade.remove();
+
+  req.flash('is-success', `Trade for ${trade.name} canceled.`);
+  res.redirect('/mybooks');
 };
 
-exports.acceptTrade = async (req, res) => {};
+exports.acceptTrade = async (req, res) => {
+  if (!isValidID(req.params.id)) {
+    req.flash('is-danger', 'Invalid trade ID');
+    return res.redirect('/mybooks');
+  }
+
+  // Find trade
+  const trade = await Trade.findOne({ _id: req.params.id }).exec();
+
+  if (trade === null) {
+    req.flash('is-danger', 'Trade not found.');
+    return res.redirect('/mybooks');
+  }
+
+  // Make sure only the book owner can accept trade
+  if (!trade.owner.equals(req.user._id)) {
+    req.flash('is-danger', 'You are not allowed to accept this trade.');
+    return res.redirect('/mybooks');
+  }
+
+  // Make requesting_user the new owner of book and make trade inactive
+  const book = await Book.findOneAndUpdate(
+    { _id: trade.book },
+    {
+      owner: trade.requesting_user,
+      active_trade: false
+    }
+  ).exec();
+
+  // Remove trade from users and switch book owner
+  await User.findOneAndUpdate(
+    { _id: trade.owner },
+    { $pull: { trade_offers: trade._id, books: trade.book } }
+  ).exec();
+
+  await User.findOneAndUpdate(
+    { _id: trade.requesting_user },
+    {
+      $pull: { trade_requests: trade._id },
+      $push: { books: book._id }
+    }
+  ).exec();
+
+  // Remove trade from DB
+  await trade.remove();
+
+  req.flash('is-success', `Trade for ${trade.name} accepted.`);
+  res.redirect('/mybooks');
+};

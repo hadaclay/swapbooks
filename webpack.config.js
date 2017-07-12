@@ -36,11 +36,7 @@ const postcss = {
 
 const styles = {
   test: /\.(scss)$/,
-  use: ExtractTextPlugin.extract([
-    'css-loader',
-    postcss,
-    'sass-loader'
-  ])
+  use: ExtractTextPlugin.extract(['css-loader', postcss, 'sass-loader'])
 };
 
 const uglify = new webpack.optimize.UglifyJsPlugin({

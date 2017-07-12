@@ -46,8 +46,7 @@ router.get('/logout', authController.logout);
 router.post(
   '/api/addbook',
   authController.isLoggedIn,
-  catchErrors(bookController.addBook),
-  catchErrors(bookController.userBooks)
+  catchErrors(bookController.addBook)
 );
 
 router.get(
@@ -60,6 +59,18 @@ router.get(
   '/api/trade/:id',
   authController.isLoggedIn,
   catchErrors(tradeController.addTrade)
+);
+
+router.get(
+  '/api/cancel/:id',
+  authController.isLoggedIn,
+  catchErrors(tradeController.cancelTrade)
+);
+
+router.get(
+  '/api/accept/:id',
+  authController.isLoggedIn,
+  catchErrors(tradeController.acceptTrade)
 );
 
 module.exports = router;

@@ -8,23 +8,29 @@ html
   body
     block header
       .container
-        nav.nav
-          .nav-left
-            h3.nav-item #{h.siteName}
-            a.nav-item(href='/') Home
-          .nav-menu.nav-right
+        nav.navbar
+          .navbar-brand
+            h3.navbar-item #{h.siteName}
+            .navbar-burger.burger(data-target='navMenu')
+              span
+              span
+              span
+          #navMenu.navbar-menu
+            .navbar-start
+              a.navbar-item(href='/') Home
+            .navbar-end
               if user
-                a.nav-item(href='/allbooks') All Books
-                a.nav-item(href='/mybooks') My Books
-                a.nav-item(href='/settings')
+                a.navbar-item(href='/allbooks') All Books
+                a.navbar-item(href='/mybooks') My Books
+                a.navbar-item(href='/settings')
                   span.icon
                     i.fa.fa-cog
-                a.nav-item(href='/logout')
+                a.navbar-item(href='/logout')
                   span.icon
                     i.fa.fa-power-off
               else
-                a.nav-item(href='/signup') Sign Up
-                a.nav-item(href='/login') Login
+                a.navbar-item(href='/signup') Sign Up
+                a.navbar-item(href='/login') Login
         
     block messages
       if locals.flashes
@@ -35,14 +41,17 @@ html
               p.flash-text!= message
               button.delete(onClick="this.parentElement.remove()")
     
-    .content
+    #wrapper.content
       block content
-        p Hello World!
       
     footer.footer
       .container
         .content.has-text-centered
-          p #{h.siteName} by Clayton Hadaway
+          p #{h.siteName} by 
+            a(href='https://hadaclay.com') @hadaclay
+          p
+            a(href='https://github.com/hadaclay/swapbooks')
+              i.fa.fa-github.fa-2x
         
     block scripts
       script(src='/dist/App.bundle.js')

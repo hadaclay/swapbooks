@@ -11,35 +11,42 @@ block content
       h1 Your trade requests:
       hr
       .trade_request_list
-        .columns
-          .column.is-6.menu
+        .columns.is-centered
+          .menu
             ul.menu-list
               each trade in trade_requests
-                li 
-                  a #{trade.name}
-                  a(href=`/api/cancel/${trade._id}`) 
-                    i.fa.fa-times.fa-2x
+                li.level
+                  a.level-item #{trade.name}
+                  .level-right
+                    a.level-item(href=`/api/cancel/${trade._id}` style='color: red;')
+                      i.fa.fa-times.fa-2x
         br
     .trade_offers(style='display: none;')
       h1 Requests for you:
       hr
       .trade_offer_list
-        .columns
-          .column.is-6.menu
+        .columns.is-centered
+          .menu
             ul.menu-list
               each offer in trade_offers
-                a
-                  li #{offer.name}
-                  
+                li.level
+                  a.level-item #{offer.name}
+                  .level-right
+                    a.level-item(href=`/api/accept/${offer._id}` style='color: green;')
+                      i.fa.fa-check.fa-2x
+                    a.level-item(href=`/api/cancel/${offer._id}` style='color: red;')
+                      i.fa.fa-times.fa-2x
         br
+          
     h1 My Books:
     hr
-    form.form(action='/api/addbook' method='POST')
-      .field.has-addons
-        p.control
-          input.input(type='text' placeholder='Add Book' name='book')
-        p.control
-          a.button.is-info(onclick='this.parentElement.parentElement.parentElement.submit();') Search
+    .level
+      form.form.level-item.has-text-centered(action='/api/addbook' method='POST')
+        .field.has-addons
+          p.control
+            input.input(type='text' placeholder='Add Book' name='book')
+          p.control
+            a.button.is-info(onclick='this.parentElement.parentElement.parentElement.submit();') Search
     .columns
       each book in books
         +bookCard(book)

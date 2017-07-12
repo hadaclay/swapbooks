@@ -36,13 +36,13 @@ exports.userBooks = async (req, res) => {
   });
 };
 
-exports.addBook = async (req, res, next) => {
-  // TODO: Check if book title already exists in db
+exports.addBook = async (req, res) => {
   const bookRequestURL = `https://www.googleapis.com/books/v1/volumes?q=${req
     .body.book}&key=${process.env.GOOGLE_API_KEY}`;
 
   // Get book data and check for thumbnail
   const response = await axios.get(bookRequestURL);
+  console.log(response.data.items[0]);
   const bookData = response.data.items[0].volumeInfo;
   if ('imageLinks' in bookData === false) {
     bookData.imageLinks = {};
@@ -52,10 +52,12 @@ exports.addBook = async (req, res, next) => {
   const book = await new Book({
     name: bookData.title,
     img_url: bookData.imageLinks.thumbnail,
+    info_url: bookData.infoLink,
     owner: req.user._id
   }).save();
 
-  next();
+  req.flash('is-success', `${book.name} added to SwapBooks`);
+  res.redirect('/mybooks');
 };
 
 exports.deleteBook = async (req, res) => {
@@ -74,5 +76,7 @@ exports.deleteBook = async (req, res) => {
   }
 
   await Book.findOneAndRemove({ _id: req.params.id });
+
+  req.flash('is-success', `${book.name} deleted from SwapBooks.`);
   res.redirect('back');
 };
