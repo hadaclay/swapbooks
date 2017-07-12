@@ -42,7 +42,6 @@ exports.addBook = async (req, res) => {
 
   // Get book data and check for thumbnail
   const response = await axios.get(bookRequestURL);
-  console.log(response.data.items[0]);
   const bookData = response.data.items[0].volumeInfo;
   if ('imageLinks' in bookData === false) {
     bookData.imageLinks = {};
