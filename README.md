@@ -1,6 +1,8 @@
 # SwapBooks
 Add and share books with people from your area. Full-Stack project for FreeCodeCamp.
 
+![Screenshot](/screenshot.png?raw=true)
+
 ## Uses
 - [Bulma](http://bulma.io) CSS framework
 - [Express](https://expressjs.com/) Web app framework
